@@ -19,6 +19,7 @@
      
 
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
      
 
@@ -61,32 +62,57 @@
         }
 
        h1 {
-              font-size: 2.5em;
-               margin-bottom: 10px;
-               font-weight: 600;
-            background: linear-gradient(90deg, #87CEEB, #FF69B4, #87CEEB, #FF69B4);
-               background-size: 300% 100%;
-             -webkit-background-clip: text;
-             -webkit-text-fill-color: transparent;
-             background-clip: text;
-             animation: gradientShift 3s ease infinite;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: 400;
+            color: white;
+            text-shadow:
+                0 0 20px rgba(135,206,235,0.6),
+                0 0 40px rgba(135,206,235,0.3);
+            line-height: 1.6;
+            letter-spacing: 2px;
 }
 
 @keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
         .subtitle {
-            font-size: 1.1em;
-            color: #888;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.55em;
+            color: rgba(135,206,235,0.4);
+            letter-spacing: 3px;
+            margin-top: 8px;
+        }
+
+        .title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .naka-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            object-fit: cover;
+            image-rendering: pixelated;
+            border: 2px solid rgba(135,206,235,0.3);
+            box-shadow: 0 0 12px rgba(135,206,235,0.25);
+            animation: nakaFloat 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        .naka-avatar.right { animation-delay: 0.3s; }
+
+        @keyframes nakaFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
 
         .count {
@@ -1258,8 +1284,12 @@ footer {
 
     <div class="container">
         <header>
-            <h1> 🦾  Nakamigos in Beeple's Everydays 🦾 </h1>
-            <p class="subtitle"> We Are All Nakamigos  </p>
+            <div class="title-row">
+                <img class="naka-avatar left" id="nakaLeft" src="" alt="Nakamigos">
+                <h1>Nakamigos in Beeple's Everydays</h1>
+                <img class="naka-avatar right" id="nakaRight" src="" alt="Nakamigos">
+            </div>
+            <p class="subtitle">We Are All Nakamigos</p>
         </header>
 
        <div class="count">
@@ -2792,6 +2822,34 @@ footer {
                     twitterUrl: "https://x.com/beeple/status/2020278284387528743"
                 },
 
+
+
+                 
+                    
+            
+
+
+
+
+
+            
+
+                
+
+                 
+            
+
+
+
+
+
+
+                
+
+            
+            
+                
+
                 { 
                     tokenId: "17447",
                     nakamigoImage: "https://i.ibb.co/kVqzpk5x/17447.avif",
@@ -2832,146 +2890,102 @@ footer {
                     twitterUrl: "https://x.com/beeple/status/2039190669609009540"
                 },
 
-                    {                       
-                        tokenId: "18135",
-                        nakamigoImage: "https://i.ibb.co/0RBNZ2Zv/18135.png",
-                        beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
-                        beepleDate: "1 april 2026",
-                        twitterUrl: "https://x.com/beeple/status/2039190669609009540"
-                    },
-    
-                    {                       
-                        tokenId: "10071",
-                        nakamigoImage: "https://i.ibb.co/B5BNSnsc/10071.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
-                        beepleDate: "1 april 2026",
-                        twitterUrl: "https://x.com/beeple/status/2039190669609009540"
-                    },
+                {                       
+                    tokenId: "18135",
+                    nakamigoImage: "https://i.ibb.co/0RBNZ2Zv/18135.png",
+                    beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
+                    beepleDate: "1 april 2026",
+                    twitterUrl: "https://x.com/beeple/status/2039190669609009540"
+                },
 
-                    {                       
-                        tokenId: "7132",
-                        nakamigoImage: "https://i.ibb.co/5X0rK8x4/7132.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
-                        beepleDate: "1 april 2026",
-                        twitterUrl: "https://x.com/beeple/status/2039190669609009540"
-                    },
+                {                       
+                    tokenId: "10071",
+                    nakamigoImage: "https://i.ibb.co/B5BNSnsc/10071.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
+                    beepleDate: "1 april 2026",
+                    twitterUrl: "https://x.com/beeple/status/2039190669609009540"
+                },
 
-                    {                       
-                        tokenId: "12884",
-                        nakamigoImage: "https://i.ibb.co/4Z2tQmDr/12884.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
-                        beepleDate: "1 april 2026",
-                        twitterUrl: "https://x.com/beeple/status/2039190669609009540"
-                    },
+                {                       
+                    tokenId: "7132",
+                    nakamigoImage: "https://i.ibb.co/5X0rK8x4/7132.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
+                    beepleDate: "1 april 2026",
+                    twitterUrl: "https://x.com/beeple/status/2039190669609009540"
+                },
 
-                    {                       
-                        tokenId: "14052",
-                        nakamigoImage: "https://i.ibb.co/Z6jztXDS/14052.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
-                        beepleDate: "1 april 2026",
-                        twitterUrl: "https://x.com/beeple/status/2039190669609009540"
-                    },
+                {                       
+                    tokenId: "12884",
+                    nakamigoImage: "https://i.ibb.co/4Z2tQmDr/12884.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
+                    beepleDate: "1 april 2026",
+                    twitterUrl: "https://x.com/beeple/status/2039190669609009540"
+                },
 
-                    {                       
-                        tokenId: "19489",
-                        nakamigoImage: "https://i.ibb.co/20RkQd33/19489.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
-                        beepleDate: "1 april 2026",
-                        twitterUrl: "https://x.com/beeple/status/2039190669609009540"
-                    },
+                {                       
+                    tokenId: "14052",
+                    nakamigoImage: "https://i.ibb.co/Z6jztXDS/14052.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
+                    beepleDate: "1 april 2026",
+                    twitterUrl: "https://x.com/beeple/status/2039190669609009540"
+                },
 
-                    {                       
-                        tokenId: "11707",
-                        nakamigoImage: "https://i.ibb.co/k2TFFL7n/11707.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
-                        beepleDate: "1 april 2026",
-                        twitterUrl: "https://x.com/beeple/status/2039190669609009540"
-                    },
+                {                       
+                    tokenId: "19489",
+                    nakamigoImage: "https://i.ibb.co/20RkQd33/19489.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
+                    beepleDate: "1 april 2026",
+                    twitterUrl: "https://x.com/beeple/status/2039190669609009540"
+                },
 
-                    {                       
-                        tokenId: "9162",
-                        nakamigoImage: "https://i.ibb.co/DHgMZwyN/9162.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
-                        beepleDate: "1 april 2026",
-                        twitterUrl: "https://x.com/beeple/status/2039190669609009540"
-                    },
+                {                       
+                    tokenId: "11707",
+                    nakamigoImage: "https://i.ibb.co/k2TFFL7n/11707.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
+                    beepleDate: "1 april 2026",
+                    twitterUrl: "https://x.com/beeple/status/2039190669609009540"
+                },
 
-                    {                       
-                        tokenId: "6400",
-                        nakamigoImage: "https://i.ibb.co/qMcSsVZ4/6400.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HEoVXfvaUAAflEx?format=jpg&name=4096x4096",
-                        beepleDate: "30 march 2026",
-                        twitterUrl: "https://x.com/beeple/status/2038465321682497818"
-                    },
+                {                       
+                    tokenId: "9162",
+                    nakamigoImage: "https://i.ibb.co/DHgMZwyN/9162.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HEyozisX0AE_FLc?format=jpg&name=4096x4096",
+                    beepleDate: "1 april 2026",
+                    twitterUrl: "https://x.com/beeple/status/2039190669609009540"
+                },
 
-                    {                       
-                        tokenId: "11027",
-                        nakamigoImage: "https://i.ibb.co/Y7gr1QBG/kruul.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HD013oKWgAAotEa?format=jpg&name=4096x4096",
-                        beepleDate: "20 march 2026",
-                        twitterUrl: "https://x.com/beeple/status/2034841925870645375"
-                    },
+                {                       
+                    tokenId: "6400",
+                    nakamigoImage: "https://i.ibb.co/qMcSsVZ4/6400.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HEoVXfvaUAAflEx?format=jpg&name=4096x4096",
+                    beepleDate: "30 march 2026",
+                    twitterUrl: "https://x.com/beeple/status/2038465321682497818"
+                },
 
-                    {                       
-                        tokenId: "11027",
-                        nakamigoImage: "https://i.ibb.co/Y7gr1QBG/kruul.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HCyF42WWwAAxes7?format=jpg&name=4096x4096",
-                        beepleDate: "7 march 2026",
-                        twitterUrl: "https://x.com/beeple/status/2030144818521743765"
-                    },
+                {                       
+                    tokenId: "11027",
+                    nakamigoImage: "https://i.ibb.co/Y7gr1QBG/kruul.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HD013oKWgAAotEa?format=jpg&name=4096x4096",
+                    beepleDate: "20 march 2026",
+                    twitterUrl: "https://x.com/beeple/status/2034841925870645375"
+                },
 
-                    {                       
-                        tokenId: "3292",
-                        nakamigoImage: "https://i.ibb.co/mrVM2mVn/3292.avif",
-                        beepleImage: "https://pbs.twimg.com/media/HG2_tgVa0AAsYvZ?format=jpg&name=4096x4096",
-                        beepleDate: "26 april 2026",
-                        twitterUrl: "https://x.com/beeple/status/2048505184343458248"
-                    },
+                {                       
+                    tokenId: "11027",
+                    nakamigoImage: "https://i.ibb.co/Y7gr1QBG/kruul.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HCyF42WWwAAxes7?format=jpg&name=4096x4096",
+                    beepleDate: "7 march 2026",
+                    twitterUrl: "https://x.com/beeple/status/2030144818521743765"
+                },
 
+                {                       
+                    tokenId: "3292",
+                    nakamigoImage: "https://i.ibb.co/mrVM2mVn/3292.avif",
+                    beepleImage: "https://pbs.twimg.com/media/HG2_tgVa0AAsYvZ?format=jpg&name=4096x4096",
+                    beepleDate: "26 april 2026",
+                    twitterUrl: "https://x.com/beeple/status/2048505184343458248"
+                },
 
-
-
-
-
-
-
-
-
-
-
-                
-
-
-
-
-
-
-
-                 
-                    
-            
-
-
-
-
-
-            
-
-                
-
-                 
-            
-
-
-
-
-
-
-                
-
-            
-            
-                
             // Pour ajoute un nouveau NFT :
             // {
             //     tokenId: "12345",
@@ -3985,6 +3999,14 @@ function refreshListings() {
 // Lancer le rafraîchissement automatique toutes les 2 minutes
 setInterval(refreshListings, 2 * 60 * 1000);
 console.log('⏰ Rafraîchissement automatique des prix activé (toutes les 2 minutes)');
+
+// Random Nakamigos avatars dans le header
+(function() {
+    const unique = [...new Set(nfts.map(n => n.nakamigoImage).filter(Boolean))];
+    const shuffled = unique.sort(() => Math.random() - 0.5);
+    document.getElementById('nakaLeft').src = shuffled[0] || '';
+    document.getElementById('nakaRight').src = shuffled[1] || '';
+})();
 
 // Recherche live par token ID
 function applySearch() {
