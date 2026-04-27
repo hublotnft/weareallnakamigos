@@ -66,13 +66,22 @@
             font-size: 1.5em;
             margin-bottom: 10px;
             font-weight: 400;
-            color: white;
-            text-shadow:
-                0 0 20px rgba(135,206,235,0.6),
-                0 0 40px rgba(135,206,235,0.3);
             line-height: 1.6;
             letter-spacing: 2px;
+            cursor: default;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.05em;
 }
+
+.char {
+    display: inline-block;
+    color: white;
+    text-shadow: 0 0 20px rgba(135,206,235,0.6), 0 0 40px rgba(135,206,235,0.3);
+    transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1), color 0.15s ease, text-shadow 0.15s ease;
+}
+.char.space { width: 0.4em; }
 
 @keyframes gradientShift {
     0%   { background-position: 0% 50%; }
@@ -1286,7 +1295,7 @@ footer {
         <header>
             <div class="title-row">
                 <img class="naka-avatar left" id="nakaLeft" src="" alt="Nakamigos">
-                <h1>Nakamigos in Beeple's Everydays</h1>
+                <h1 id="mainTitle"></h1>
                 <img class="naka-avatar right" id="nakaRight" src="" alt="Nakamigos">
             </div>
             <p class="subtitle">We Are All Nakamigos</p>
@@ -4006,6 +4015,54 @@ console.log('⏰ Rafraîchissement automatique des prix activé (toutes les 2 mi
     const shuffled = unique.sort(() => Math.random() - 0.5);
     document.getElementById('nakaLeft').src = shuffled[0] || '';
     document.getElementById('nakaRight').src = shuffled[1] || '';
+})();
+
+// Wave effect sur le titre
+(function() {
+    const text = "Nakamigos in Beeple's Everydays";
+    const h1 = document.getElementById('mainTitle');
+    text.split('').forEach(char => {
+        const span = document.createElement('span');
+        span.className = char === ' ' ? 'char space' : 'char';
+        span.textContent = char === ' ' ? '\u00A0' : char;
+        h1.appendChild(span);
+    });
+
+    const chars = [...h1.querySelectorAll('.char:not(.space)')];
+
+    h1.addEventListener('mouseover', (e) => {
+        const target = e.target.closest('.char');
+        if (!target || target.classList.contains('space')) return;
+        const idx = chars.indexOf(target);
+        chars.forEach((c, i) => {
+            const dist = Math.abs(i - idx);
+            if (dist === 0) {
+                c.style.transform = 'translateY(-10px) scale(1.25)';
+                c.style.color = '#87CEEB';
+                c.style.textShadow = '0 0 30px rgba(135,206,235,1), 0 0 60px rgba(135,206,235,0.6)';
+            } else if (dist === 1) {
+                c.style.transform = 'translateY(-5px) scale(1.1)';
+                c.style.color = 'rgba(135,206,235,0.8)';
+                c.style.textShadow = '';
+            } else if (dist === 2) {
+                c.style.transform = 'translateY(-2px) scale(1.05)';
+                c.style.color = 'rgba(135,206,235,0.4)';
+                c.style.textShadow = '';
+            } else {
+                c.style.transform = '';
+                c.style.color = '';
+                c.style.textShadow = '';
+            }
+        });
+    });
+
+    h1.addEventListener('mouseleave', () => {
+        chars.forEach(c => {
+            c.style.transform = '';
+            c.style.color = '';
+            c.style.textShadow = '';
+        });
+    });
 })();
 
 // Recherche live par token ID
