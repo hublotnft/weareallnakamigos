@@ -173,6 +173,31 @@
     color: white;
 }
 
+#sortBtn {
+    background: linear-gradient(90deg, #2081e2, #87CEEB);
+    color: white;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+#sortBtn:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+}
+
+#caret {
+    display: inline-block;
+    margin-left: 6px;
+    transition: transform 0.25s ease;
+}
+
         .nft-card {
             background: rgba(10, 20, 45, 0.85);
             border-radius: 12px;
@@ -277,38 +302,12 @@
       }
       @keyframes shimmer { to { left: 100%; } }
         
-      /* NOUVEAU: Badge de chat avec compteur */
-        .chat-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.8em;
-            margin-top: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-        }
+      
+        
 
-        .chat-badge:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
+        
 
-        .chat-badge .unread-count {
-            background: #ef4444;
-            color: white;
-            border-radius: 10px;
-            padding: 2px 6px;
-            font-size: 0.75em;
-            font-weight: 700;
-            min-width: 18px;
-            text-align: center;
-        }
+        
 
 
 
@@ -555,737 +554,13 @@ footer {
     font-size: 0.9em;
 }
 
-/* ===== CHAT STYLES ===== */
-.chat-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: linear-gradient(90deg, #1a4a8a, #87CEEB);
-    color: white;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 0.8em;
-    margin-top: 4px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
-}
 
-.chat-badge:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(26, 74, 138, 0.5);
-}
-
-.chat-badge .unread-badge {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    background: #ef4444;
-    color: white;
-    border-radius: 50%;
-    min-width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: bold;
-    border: 2px solid #1a1a2e;
-    animation: pulseBadge 2s infinite;
-}
-
-@keyframes pulseBadge {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-.chat-count {
-    background: #ff4fd8;
-    color: white;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    font-size: 0.75em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-.chat-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    animation: fadeIn 0.3s ease;
-}
-
-.chat-modal.active {
-    display: flex;
-}
-
-.chat-content {
-    background: #0d1b2e;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 600px;
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(135,206,235,0.15);
-}
-
-.chat-header {
-    padding: 20px 25px;
-    border-bottom: 2px solid rgba(135,206,235,0.2);
-    background: linear-gradient(135deg, rgba(26, 74, 138, 0.3) 0%, rgba(135, 206, 235, 0.1) 100%);
-    border-radius: 20px 20px 0 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.chat-title {
-    font-size: 1.3em;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.chat-message {
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    padding: 12px 15px;
-    max-width: 85%;
-    animation: messageSlide 0.2s ease;
-    position: relative;
-}
-
-@keyframes messageSlide {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.chat-message.own {
-    align-self: flex-end;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
-    border: 1px solid rgba(102, 126, 234, 0.4);
-}
-
-.message-author {
-    font-weight: 600;
-    font-size: 0.85em;
-    color: #667eea;
-    margin-bottom: 4px;
-}
-
-.message-text {
-    color: white;
-    word-wrap: break-word;
-    line-height: 1.4;
-}
-
-.message-time {
-    font-size: 0.7em;
-    color: #666;
-    margin-top: 4px;
-}
-
-.chat-input-container {
-    padding: 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    background: rgba(0,0,0,0.3);
-    border-radius: 0 0 20px 20px;
-}
-
-.chat-input-wrapper {
-    display: flex;
-    gap: 10px;
-}
-
-.chat-input {
-    flex: 1;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 10px;
-    padding: 12px 15px;
-    color: white;
-    font-size: 0.95em;
-    outline: none;
-}
-
-.chat-input:focus {
-    background: rgba(255,255,255,0.15);
-    border-color: #667eea;
-}
-
-.send-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    min-width: 80px;
-}
-
-.send-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-}
-
-.empty-chat {
-    text-align: center;
-    color: #666;
-    padding: 40px 20px;
-    font-size: 0.95em;
-}
-
-.empty-chat-icon {
-    font-size: 3em;
-    margin-bottom: 10px;
-}
-
-.pseudo-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    z-index: 3000;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.pseudo-modal.active {
-    display: flex;
-}
-
-.pseudo-content {
-    background: #1a1a1a;
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 500px;
-    width: 100%;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.pseudo-title {
-    font-size: 1.8em;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.pseudo-subtitle {
-    color: #888;
-    margin-bottom: 30px;
-}
-
-.pseudo-input {
-    width: 100%;
-    background: rgba(255,255,255,0.1);
-    border: 2px solid rgba(102, 126, 234, 0.3);
-    border-radius: 10px;
-    padding: 15px;
-    color: white;
-    font-size: 1.1em;
-    text-align: center;
-    outline: none;
-    margin-bottom: 20px;
-}
-
-.pseudo-input:focus {
-    border-color: #667eea;
-    background: rgba(255,255,255,0.15);
-}
-
-.pseudo-btn {
-    width: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1.1em;
-    transition: all 0.2s ease;
-}
-
-.pseudo-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-}
-
-/* 👇 AJOUTE TOUT ÇA ICI */
-.close-btn {
-    background: rgba(255,255,255,0.1);
-    border: none;
-    color: white;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.close-btn:hover {
-    background: rgba(255,255,255,0.2);
-    transform: rotate(90deg);
-}
-
-.pseudo-change-btn {
-    background: rgba(102, 126, 234, 0.2);
-    border: 1px solid rgba(102, 126, 234, 0.4);
-    color: white;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    font-size: 1em;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.pseudo-change-btn:hover {
-    background: rgba(102, 126, 234, 0.4);
-    transform: scale(1.1);
-}
-
-.logout-btn {
-    background: rgba(239, 68, 68, 0.2);
-    border: 1px solid rgba(239, 68, 68, 0.4);
-    color: #ef4444;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    font-size: 1em;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logout-btn:hover {
-    background: rgba(239, 68, 68, 0.4);
-    transform: scale(1.1);
-}
-
-   .message-actions {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    display: flex;
-    gap: 5px;
-    opacity: 0;
-    transition: all 0.2s ease;
-}
-
-.chat-message:hover .message-actions {
-    opacity: 1;
-}
-
-.edit-msg-btn,
-.delete-msg-btn {
-    background: rgba(102, 126, 234, 0.3);
-    border: none;
-    color: white;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    font-size: 0.75em;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Toast Notifications */
-.toast-notification {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 16px 20px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    min-width: 300px;
-    max-width: 400px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    animation: slideInRight 0.3s ease;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.toast-notification:hover {
-    transform: translateX(-5px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-}
-
-@keyframes slideInRight {
-    from {
-        transform: translateX(400px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-.toast-notification.closing {
-    animation: slideOutRight 0.3s ease forwards;
-}
-
-@keyframes slideOutRight {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(400px);
-        opacity: 0;
-    }
-}
-
-.toast-icon {
-    font-size: 1.8em;
-    flex-shrink: 0;
-}
-
-.toast-content {
-    flex: 1;
-}
-
-.toast-title {
-    font-weight: 600;
-    font-size: 0.95em;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.toast-message {
-    font-size: 0.85em;
-    opacity: 0.9;
-    line-height: 1.4;
-    max-height: 60px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.toast-close {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 0.8em;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toast-close:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: rotate(90deg);
-}
-
-/* Bouton Messages flottant */
-.messages-floating-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 65px;
-    height: 65px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-    transition: all 0.3s ease;
-    z-index: 9999;
-}
-
-.messages-floating-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.6);
-}
-
-.messages-icon {
-    font-size: 1.8em;
-}
-
-.messages-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #ef4444;
-    color: white;
-    min-width: 24px;
-    height: 24px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75em;
-    font-weight: 700;
-    border: 2px solid #0d0d0d;
-}
-
-.messages-badge.hidden {
-    display: none;
-}
-
-/* Panneau Messages */
-.messages-panel {
-    position: fixed;
-    bottom: 110px;
-    right: 30px;
-    width: 350px;
-    max-height: 500px;
-    background: #1a1a1a;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 9998;
-    display: none;
-    flex-direction: column;
-    animation: slideUp 0.3s ease;
-}
-
-.messages-panel.active {
-    display: flex;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.messages-panel-header {
-    padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-weight: 600;
-    font-size: 1.1em;
-}
-
-.messages-panel-list {
-    overflow-y: auto;
-    max-height: 420px;
-    padding: 10px;
-}
-
-.empty-messages {
-    text-align: center;
-    color: #666;
-    padding: 40px 20px;
-}
-
-.message-item {
-    background: rgba(102, 126, 234, 0.1);
-    border: 1px solid rgba(102, 126, 234, 0.3);
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.message-item:hover {
-    background: rgba(102, 126, 234, 0.2);
-    transform: translateX(-5px);
-}
-
-.message-item-info {
-    flex: 1;
-}
-
-.message-item-title {
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.message-item-count {
-    font-size: 0.85em;
-    color: #888;
-}
-
-.message-item-badge {
-    background: #ef4444;
-    color: white;
-    min-width: 28px;
-    height: 28px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9em;
-    font-weight: 700;
-}
-
-.edit-msg-btn:hover {
-    background: rgba(102, 126, 234, 0.6);
-    transform: scale(1.15);
-}
-
-.delete-msg-btn {
-    background: rgba(239, 68, 68, 0.3);
-    color: #ef4444;
-}
-
-.delete-msg-btn:hover {
-    background: rgba(239, 68, 68, 0.6);
-    transform: scale(1.15);
-}
-
-
-
-
-
-/* 👆 JUSQU'ICI */
-
-@media (max-width: 768px) {
-    h1 {
-        font-size: 1.8em;
-    }
-            
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 15px;
-            }
-
-            .modal-images {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-actions {
-                flex-direction: column;
-            }
-
-            .modal-content {
-                max-height: 95vh;
-            }
-        }
-        #sortBtn {
-    background: linear-gradient(90deg, #2081e2 0%, #ff4fd8 100%);
-    color: white;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 999px;
-    font-size: 0.95em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-#sortBtn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 79, 216, 0.35);
-}
-#caret {
-    display: inline-block;
-    margin-left: 6px;
-    transition: transform 0.25s ease;
-}
-
-.caret-up {
-    transform: rotate(180deg);
-}
-
-.chat-btn{position:fixed;bottom:30px;right:30px;width:60px;height:60px;border-radius:50%;background:linear-gradient(90deg,#4da3ff,#ff4fd8);color:white;border:none;font-size:24px;cursor:pointer;z-index:10001;}
 
 
 
 </style>
    </style>
 
-<!-- Firebase v10 (Module) - NOUVEAU CODE -->
-<script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-    import { getDatabase, ref, push, onValue, query, limitToLast, off } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCR4eAzBBKS2K_MS_Pn4f6UTm_cp9IeaMs",
-        authDomain: "nakamigos-chat-959cc.firebaseapp.com",
-        databaseURL: "https://nakamigos-chat-959cc-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "nakamigos-chat-959cc",
-        storageBucket: "nakamigos-chat-959cc.firebasestorage.app",
-        messagingSenderId: "221542247504",
-        appId: "1:221542247504:web:a0b63453df59f2bc1cf555",
-        measurementId: "G-8XZM0ZKZMY"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-
-    window.firebaseDB = database;
-    window.firebaseRef = ref;
-    window.firebasePush = push;
-    window.firebaseOnValue = onValue;
-    window.firebaseQuery = query;
-    window.firebaseLimitToLast = limitToLast;
-    window.firebaseOff = off;
-
-    console.log('✅ Firebase initialisé !');
-    
-</script>
 
 </head>  
 <body>
@@ -3147,669 +2422,67 @@ function setFilterListing(type) {
             document.body.style.overflow = 'auto';
         }
 
-        // ===== CHAT FUNCTIONS =====
-        let userId = localStorage.getItem('nftchatuserid');
-        if (!userId) {
-          userId = 'user_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
-        localStorage.setItem('nftchatuserid', userId);
-        }
-        let currentChatNFT = null;
-        let userPseudo = localStorage.getItem('nft_chat_pseudo') || null;
-        let chatRefreshInterval = null;
-
         // 👇 AJOUTE ICI
-// Variables globales pour notifications
-window.unreadMessages = {}; // {tokenId: count}
-window.lastMessageTimes = {}; // {tokenId: timestamp}
 
-// Mettre à jour badge pour un NFT spécifique
-function updateNFTBadge(tokenId, count) {
-    const badge = document.getElementById('badge-' + tokenId);
-    console.log('Badge ID cherché:', 'badge-' + tokenId);
-    console.log('Badge trouvé:', badge);
-    
-    if (badge) {
-        if (count > 0) {
-            badge.textContent = count > 9 ? '9+' : count;
-            badge.style.display = 'flex';
-        } else {
-            badge.style.display = 'none';
-        }
-    }
-}
-
-// 👆 JUSQU'ICI
-
-        async function openChatModal(nft, event) {
-    event.stopPropagation();
-    
-    if (!userPseudo) {
-        currentChatNFT = nft;
-        document.getElementById('pseudoModal').classList.add('active');
-        return;
-    }
-
-    lastMessageCount = 0; // Réinitialiser pour détecter les nouveaux messages
-
-    currentChatNFT = nft;
-    document.getElementById('chatNftTitle').textContent = `Nakamigos #${nft.tokenId}`;
-    document.getElementById('currentPseudo').textContent = `@${userPseudo}`;
-    document.getElementById('chatModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // 👇 AJOUTE CETTE FONCTION ICI
-    markMessagesAsRead(nft.tokenId);
-
-    await loadMessages();
-    startChatRefresh();
-}
-
-
-       function closeChatModal() {
-    // Arrêter l'écoute Firebase
-    if (currentChatNFT) {
-        const chatPath = `chats/nft-${currentChatNFT.tokenId}/messages`;
-        const messagesRef = window.firebaseRef(window.firebaseDB, chatPath);
-        window.firebaseOff(messagesRef);
-    }
-
-
-        document.getElementById('chatModal').classList.remove('active');
-    document.body.style.overflow = 'auto';
-    currentChatNFT = null;
-    stopChatRefresh();
-}
-
-        async function setPseudo() {
-  let pseudoDisplay = document.getElementById('pseudoInput').value.trim();
-const pseudo = pseudoDisplay.toLowerCase();  // normalisé pour DB
-
-  
-  if (pseudo.length < 2 || pseudo.length > 20) {
-    alert('Pseudo entre 2 et 20 caractères');
-    return;
-  }
-
-  try {
-    const userPath = `chats/nft-${currentChatNFT.tokenId}/users/${pseudo}`;
-    const userRef = window.firebaseRef(window.firebaseDB, userPath);
-    
-    const { get } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js');
-    const snapshot = await get(userRef);
-    
-    if (snapshot.exists()) {
-      alert('❌ Username already taken! Choose another one.');
-      return;
-    }
-
-    await window.firebasePush(userRef, { active: true, timestamp: Date.now() });
-    
-    localStorage.setItem('nft_chat_pseudo', pseudoDisplay);
-    userPseudo = pseudoDisplay;
-
-    
-    document.getElementById('pseudoModal').classList.remove('active');
-
-    listenToAllChats();
-    
-    if (currentChatNFT) {
-      setTimeout(() => openChatModal(currentChatNFT, { stopPropagation: () => {} }), 100);
-    }
-  } catch (error) {
-    console.error('❌ Error:', error);
-    alert('Error during verification. Please try again!');
-  }
-}
 
         
 
-        function changePseudo() {
-    // fermez chat
-    closeChatModal();
-    
-    // voir pseudo modal with current pseudo
-    document.getElementById('pseudoInput').value = userPseudo || '';
-    document.getElementById('pseudoModal').classList.add('active');
-}
 
-async function logoutChat() {
-    if (confirm('Do you really want to log out from the chat?')) {
-        try {
-            if (userPseudo && currentChatNFT) {
-                const { remove } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js');
-                const pseudo = userPseudo.toLowerCase();
-                const userPath = `chats/nft-${currentChatNFT.tokenId}/users/${pseudo}`;
-                const userRef = window.firebaseRef(window.firebaseDB, userPath);
-                await remove(userRef);
-            }
-            
-            localStorage.removeItem('nft_chat_pseudo');
-            userPseudo = null;
-            closeChatModal();
-            alert('✅ You are now logged out!');
-        } catch (error) {
-            console.error('❌ Erreur logout:', error);
-            localStorage.removeItem('nft_chat_pseudo');
-            userPseudo = null;
-            closeChatModal();
-        }
-    }
-}
+       
 
-
-
-        function editMessage(messageId, currentText, event) {
-    event.stopPropagation();
-    
-    const newText = prompt('Edit your message:', currentText);
-    
-    if (newText && newText.trim() !== '' && newText !== currentText) {
-        if (newText.length > 500) {
-            alert('Message too long (max 500 characters)');
-            return;
-        }
         
-        updateMessage(messageId, newText.trim());
-    }
-}
 
-      function sendNotification(pseudo, message, nftId) {
-    // Ne pas notifier si c'est notre propre message
-    if (pseudo === userPseudo) return;
-    
-    // Vérifier si l'utilisateur a activé les notifications
-    if (!areNotificationsEnabled()) {
-        return;
-    }
-    
-    // TOUJOURS afficher le toast (sauf si c'est notre message)
-    showToast(pseudo, message, nftId);
-    
-    // Notification native du navigateur seulement si le chat n'est pas ouvert sur ce NFT
-    if (!document.getElementById('chatModal').classList.contains('active') || 
-        currentChatNFT?.tokenId !== nftId) {
         
-        if ('Notification' in window && Notification.permission === 'granted') {
-            const notification = new Notification(`💬 ${pseudo} - NFT #${nftId}`, {
-                body: message,
-                icon: 'https://i.ibb.co/Y7gr1QBG/kruul.avif',
-                tag: `chat-${nftId}`,
-                requireInteraction: false
-            });
-            
-            notification.onclick = function() {
-                window.focus();
-                notification.close();
-                const nft = nfts.find(n => n.tokenId === nftId);
-                if (nft) {
-                    openChatModal(nft, { stopPropagation: () => {} });
-                }
-            };
-            
-            setTimeout(() => notification.close(), 5000);
-        }
-    }
-}
 
-// Fonction pour afficher un toast
-function showToast(pseudo, message, nftId) {
-    const container = document.getElementById('toastContainer');
-    if (!container) return;
-    
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.innerHTML = `
-        <div class="toast-icon">💬</div>
-        <div class="toast-content">
-            <div class="toast-title">
-                <strong>${escapeHtml(pseudo)}</strong>
-                <span style="color: rgba(255,255,255,0.7); font-size: 0.85em;">NFT #${nftId}</span>
-            </div>
-            <div class="toast-message">${escapeHtml(message)}</div>
-        </div>
-        <button class="toast-close">×</button>
-    `;
-    
-    const closeBtn = toast.querySelector('.toast-close');
-    closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeToast(toast);
-    });
-    
-    toast.addEventListener('click', (e) => {
-        if (e.target.classList.contains('toast-close')) return;
-        const nft = nfts.find(n => n.tokenId === nftId);
-        if (nft) {
-            openChatModal(nft, { stopPropagation: () => {} });
-            closeToast(toast);
-        }
-    });
-    
-    
-
-    container.appendChild(toast);
-
-// Son de notification moderne
-try {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.value = 800;
-    oscillator.type = 'sine';
-    
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
-} catch (e) {
-    console.log('Erreur son:', e);
-}
-
-setTimeout(() => { closeToast(toast); }, 30000);
-    
-    setTimeout(() => { closeToast(toast); }, 30000);
-    
-    const toasts = container.querySelectorAll('.toast-notification');
-    if (toasts.length > 3) {
-        closeToast(toasts[0]);
-    }
-}
-
-function closeToast(element) {
-    const toast = element.classList && element.classList.contains('toast-notification') 
-        ? element 
-        : (element.closest ? element.closest('.toast-notification') : element);
-    
-    if (toast && toast.classList) {
-        toast.classList.add('closing');
-        setTimeout(() => {
-            if (toast.parentNode) {
-                toast.remove();
-            }
-        }, 300);
-    }
-}
+        
 
 
-// Vérifier si les notifications sont activées
-function areNotificationsEnabled() {
-    return localStorage.getItem('chat_notifications_enabled') !== 'false';
-}
 
-      async function deleteMessage(messageId) {
-    if (!currentChatNFT) return;
-    
-    if (confirm('Delete this message?')) {
-        try {
-            // Import de la fonction remove
-            const { remove } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js');
-            
-            const chatPath = `chats/nft-${currentChatNFT.tokenId}/messages/${messageId}`;
-            const messageRef = window.firebaseRef(window.firebaseDB, chatPath);
-            
-            // Supprimer le message
-            await remove(messageRef);
-            
-            console.log('✅ Message deleted!');
-        } catch (error) {
-            console.error('❌ Error:', error);
-            alert('Error deleting message: ' + error.message);
-        }
-    }
-}
+
+
+        
 
       
 
-let currentListener = null;
-let lastMessageCount = 0; // Pour détecter les nouveaux messages
 
-function loadMessages() {
-    if (!currentChatNFT) return;
-    
-    // Arrêter l'ancienne écoute si elle existe
-    if (currentListener) {
-        window.firebaseOff(currentListener);
-    }
-    
-    const chatPath = `chats/nft-${currentChatNFT.tokenId}/messages`;
-    const messagesRef = window.firebaseRef(window.firebaseDB, chatPath);
-    const messagesQuery = window.firebaseQuery(messagesRef, window.firebaseLimitToLast(100));
-    
-    // Stocker la référence
-    currentListener = messagesRef;
-    
-    // Écouter les changements
-    window.firebaseOnValue(messagesQuery, (snapshot) => {
-        const messages = [];
-        snapshot.forEach((childSnapshot) => {
-            messages.push({
-                id: childSnapshot.key,
-                ...childSnapshot.val()
-            });
-        });
-        
-        console.log('📊 Total messages:', messages.length);
-        console.log('📊 Last count:', lastMessageCount);
-        
-        // Si on a plus de messages qu'avant ET que ce n'est pas le premier chargement
-        if (messages.length > lastMessageCount && lastMessageCount > 0) {
-            const newMessage = messages[messages.length - 1]; // Le dernier message
-            console.log('🔔 NOUVEAU MESSAGE détecté:', newMessage);
-            console.log('🔔 userPseudo:', userPseudo);
-            console.log('🔔 areNotificationsEnabled():', areNotificationsEnabled());
-            console.log('🔔 currentChatNFT.tokenId:', currentChatNFT.tokenId);
-            console.log('🔔 Appel sendNotification...');
-            
-            // Envoyer une notification (toast + native)
-            sendNotification(newMessage.pseudo, newMessage.message, currentChatNFT.tokenId);
-            
-            console.log('🔔 Après sendNotification');
-        } else {
-            console.log('⚠️ Pas de nouveau message (length:', messages.length, 'last:', lastMessageCount, ')');
-        }
-        
-        lastMessageCount = messages.length;
-        displayMessages(messages);
-    });
-}
 
-       // Tracker les NFTs avec nouveaux messages
-       let nftsWithNewMessages = new Set();
+
+
+
+      
+
+      
+
+
 
        
-          // Écouter les nouveaux messages sur TOUS les NFTs
-    function listenToAllChats() {
-    // Pour chaque NFT affiché
-    nfts.forEach(nft => {
-        const chatPath = `chats/nft-${nft.tokenId}/messages`;
-        const messagesRef = window.firebaseRef(window.firebaseDB, chatPath);
-        const messagesQuery = window.firebaseQuery(messagesRef, window.firebaseLimitToLast(1)); // Seulement le dernier
-        
-        // Écouter le dernier message
-        window.firebaseOnValue(messagesQuery, (snapshot) => {
-            let lastMessage = null;
-            snapshot.forEach((childSnapshot) => {
-                lastMessage = {
-                    id: childSnapshot.key,
-                    ...childSnapshot.val()
-                };
-            });
-            
-            if (lastMessage) {
-                // Vérifier si c'est un nouveau message (pas déjà vu)
-                const lastSeenKey = `lastSeen_nft_${nft.tokenId}`;
-                const lastSeenId = localStorage.getItem(lastSeenKey);
-                
-                if (lastSeenId !== lastMessage.id) {
-    console.log('🆕 Nouveau message détecté sur NFT', nft.tokenId);
-    console.log('Message:', lastMessage);
-    console.log('userPseudo:', userPseudo);
-    
-    localStorage.setItem(lastSeenKey, lastMessage.id);
-    
-    if (lastMessage.pseudo !== userPseudo) {
-        console.log('✅ Ajout au tracker:', nft.tokenId);
-        // Ajouter au tracker de nouveaux messages
-        nftsWithNewMessages.add(nft.tokenId);
-        console.log('📊 Tracker contient:', Array.from(nftsWithNewMessages));
-        updateMessagesPanel();
-        
-        if (!currentChatNFT || currentChatNFT.tokenId !== nft.tokenId) {
-            sendNotification(lastMessage.pseudo, lastMessage.message, nft.tokenId);
-        }
-    }
-}
-            }
-        });
-    });
-}
+
+       
+          
 
 
 
-// Mettre à jour le panneau de messages
-function updateMessagesPanel() {
-    const badge = document.getElementById('messagesBadge');
-    const list = document.getElementById('messagesPanelList');
-    
-    if (nftsWithNewMessages.size === 0) {
-        badge.classList.add('hidden');
-        badge.textContent = '0';
-        list.innerHTML = '<div class="empty-messages">No new messages</div>';
-        return;
-    }
-    
-    // Afficher le badge
-    badge.classList.remove('hidden');
-    badge.textContent = nftsWithNewMessages.size;
-    
-    // Créer la liste
-    let html = '';
-    nftsWithNewMessages.forEach(tokenId => {
-        const nft = nfts.find(n => n.tokenId === tokenId);
-        if (nft) {
-            // Récupérer le compteur de messages non lus
-            const lastReadKey = `lastRead_nft_${tokenId}`;
-            const chatKey = `chat:nft-${tokenId}:messages`;
-            
-            html += `
-                <div class="message-item" onclick="goToNFT('${tokenId}')">
-                    <div class="message-item-info">
-                        <div class="message-item-title">NFT #${tokenId}</div>
-                        <div class="message-item-count">New messages</div>
-                    </div>
-                    <div class="message-item-badge">•</div>
-                </div>
-            `;
-        }
-    });
-    
-    list.innerHTML = html;
-}
 
-// Ouvrir/Fermer le panneau
-function toggleMessagesPanel() {
-    const panel = document.getElementById('messagesPanel');
-    panel.classList.toggle('active');
-}
 
-function closeMessagesPanel() {
-    const panel = document.getElementById('messagesPanel');
-    panel.classList.remove('active');
-}
 
-// Aller vers un NFT et ouvrir son chat
-function goToNFT(tokenId) {
-    // Trouver le NFT
-    const nft = nfts.find(n => n.tokenId === tokenId);
-    if (!nft) return;
-    
-    // Fermer le panneau
-    closeMessagesPanel();
-    
-    // Trouver la carte du NFT dans la galerie
-    const nftCard = document.querySelector(`[onclick*='${tokenId}']`);
-    if (nftCard) {
-        // Scroll vers le NFT avec animation
-        nftCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // Attendre la fin du scroll puis ouvrir le chat
-        setTimeout(() => {
-            openChatModal(nft, { stopPropagation: () => {} });
-            // Retirer du tracker
-            nftsWithNewMessages.delete(tokenId);
-            updateMessagesPanel();
-        }, 500);
-    }
-}
+
+
    
 
-        function displayMessages(messages) {
-    const container = document.getElementById('chatMessages');
-    
-    if (messages.length === 0) {
-        container.innerHTML = `
-            <div class="empty-chat">
-                <div class="empty-chat-icon">💭</div>
-                <div>Be the first to discuss this NFT!</div>
-            </div>
-        `;
-        return;
-    }
-
-    // Stocker la position de scroll actuelle
-    const scrollPos = container.scrollTop;
-    const scrollHeight = container.scrollHeight;
-    const clientHeight = container.clientHeight;
-    const wasAtBottom = (scrollHeight - scrollPos - clientHeight) < 50;
-
-    // Ne mettre à jour QUE si le nombre de messages a changé
-    const currentCount = container.querySelectorAll('.chat-message').length;
-    
-    if (currentCount !== messages.length || container.querySelector('.empty-chat')) {
-        container.innerHTML = messages.map(msg => {
-            const isOwn = msg.userId && msg.userId === userId;
-            const time = new Date(msg.timestamp).toLocaleTimeString('fr-FR', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            });
-            
-           const actionBtns = isOwn ? `
-    <div class="message-actions">
-        <button class="edit-msg-btn" onclick="editMessage('${msg.id}', '${escapeHtml(msg.message).replace(/'/g, "\\'")}', event)" title="Edit message">
-            ✏️
-        </button>
-        <button class="delete-msg-btn" onclick="deleteMessage('${msg.id}')" title="Delete message">
-            🗑️
-        </button>
-    </div>
-` : '';
-            
-           return `
-    <div class="chat-message ${isOwn ? 'own' : ''}" data-msg-id="${msg.id}">
-        <div class="message-author">${escapeHtml(msg.pseudo)}</div>
-        <div class="message-text">${escapeHtml(msg.message)}</div>
-        <div class="message-time">${time}</div>
-        ${actionBtns}
-    </div>
-`;
-        }).join('');
-
-        // Restaurer la position de scroll ou aller en bas si on était déjà en bas
-        if (wasAtBottom) {
-            container.scrollTop = container.scrollHeight;
-        } else {
-            container.scrollTop = scrollPos;
-        }
-    }
-}
-
-        async function sendMessage() {
-    if (!currentChatNFT || !userPseudo) return;
-
-    const input = document.getElementById('chatInput');
-    const message = input.value.trim();
-    
-    if (message.length === 0) return;
-    if (message.length > 500) {
-        alert('Message trop long (max 500 caractères)');
-        return;
-    }
-
-    try {
-        const chatPath = `chats/nft-${currentChatNFT.tokenId}/messages`;
-        const messagesRef = window.firebaseRef(window.firebaseDB, chatPath);
         
-        const newMessage = {
-            pseudo: userPseudo,
-            userId: userId,
-            message: message,
-            timestamp: Date.now()
-        };
 
-        await window.firebasePush(messagesRef, newMessage);
         
-        input.value = '';
-        console.log('✅ Message envoyé !');
 
-    } catch (error) {
-        console.error('❌ Erreur envoi message:', error);
-        alert('Erreur lors de l\'envoi. Réessaye !');
-    }
-}
-
-       function updateChatBadge(tokenId) {
-    // 👈 CLEANUP ancien listener
-    const badgeListenerKey = `badgeListener_${tokenId}`;
-    if (window[badgeListenerKey]) {
-        window.firebaseOff(window[badgeListenerKey]);
-    }
-    
-    const chatPath = `chats/nft-${tokenId}/messages`;
-    const messagesRef = window.firebaseRef(window.firebaseDB, chatPath);
-    
-    // Écouter en TEMPS RÉEL
-    window.firebaseOnValue(messagesRef, (snapshot) => {
-        const badge = document.getElementById(`chat-badge-${tokenId}`);
-        if (badge) {
-            const totalMessages = snapshot.size;
-            const lastReadKey = `lastRead_nft_${tokenId}`;
-            const lastReadCount = parseInt(localStorage.getItem(lastReadKey) || '0');
-            const unreadCount = Math.max(0, totalMessages - lastReadCount);
-            
-            if (unreadCount > 0) {
-                badge.innerHTML = `💬 Chat <span class="chat-count">${unreadCount}</span>`;
-            } else {
-                badge.innerHTML = '💬 Chat';
-            }
-        }
-    });
-    
-    // 👈 STOCKE pour prochain cleanup
-    window[badgeListenerKey] = messagesRef;
-}
+       
 
 
-function markMessagesAsRead(tokenId) {
-    const chatPath = `chats/nft-${tokenId}/messages`;
-    const messagesRef = window.firebaseRef(window.firebaseDB, chatPath);
-    
-    // Compter les messages et sauvegarder localement
-    window.firebaseOnValue(messagesRef, (snapshot) => {
-        const totalMessages = snapshot.size;
-        const lastReadKey = `lastRead_nft_${tokenId}`;
-        localStorage.setItem(lastReadKey, totalMessages.toString());
+
+
         
-        // Mettre à jour le badge immédiatement
-        updateChatBadge(tokenId);
-    }, { onlyOnce: true });
-}
 
-        function startChatRefresh() {
-            stopChatRefresh();
-            chatRefreshInterval = setInterval(() => {
-                if (currentChatNFT) {
-                    loadMessages();
-                }
-            }, 3000);
-        }
+        
 
-        function stopChatRefresh() {
-            if (chatRefreshInterval) {
-                clearInterval(chatRefreshInterval);
-                chatRefreshInterval = null;
-            }
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        
 
         document.addEventListener('DOMContentLoaded', () => {
             const chatInput = document.getElementById('chatInput');
@@ -3881,16 +2554,7 @@ function markMessagesAsRead(tokenId) {
                 <div class="listing-badge loading" id="listing-${index}-${nft.tokenId}">
                     ⏳ LOADING...
                 </div>
-                <button class="chat-badge" onclick="openChatModal({tokenId:${nft.tokenId},name:'Nakamigos #${nft.tokenId}',image:'${nft.nakamigoImage}'},event)" style="position:relative;" id="chat-badge-${nft.tokenId}">
-    💬 Chat
-    <span class="unread-badge" id="badge-${nft.tokenId}" style="display:none;">0</span>
-</button>
-
-
-
-
-
-                <div class="view-badge">
+<div class="view-badge">
                     👁️ View Details
                 </div>
             </div>
@@ -3938,8 +2602,7 @@ function markMessagesAsRead(tokenId) {
                     }
                 }
 
-                // Update chat badge
-                updateChatBadge(nft.tokenId);
+                
             }
         }, index * 500);
     });
@@ -4084,53 +2747,10 @@ function applySearch() {
 }
 
         renderNFTs();
-        
-        if (userPseudo) {
-    listenToAllChats();
-}
 
     </script>
 
-<!-- Chat Modal -->
-<div class="chat-modal" id="chatModal" onclick="closeChatModal()">
-    <div class="chat-content" onclick="event.stopPropagation()">
-        <div class="chat-header">
-    <div class="chat-title">
-        <span>💬</span>
-        <span id="chatNftTitle">Nakamigos #4418</span>
-        <span id="currentPseudo" style="font-size: 0.7em; color: #888; margin-left: 10px;">(@pseudo)</span>
-    </div>
-    <div style="display: flex; gap: 10px; align-items: center;">
-         
-        </button>
-        <button class="logout-btn" onclick="logoutChat()" title="Log out">
-            🚪
-        </button>
-        <button class="close-btn" onclick="closeChatModal()">×</button>
-    </div>
-</div>
-        <div class="chat-messages" id="chatMessages">
-            <div class="empty-chat">
-                <div class="empty-chat-icon">💭</div>
-                <div>Be the first to discuss this NFT!</div>
-            </div>
-        </div>
-        <div class="chat-input-container">
-            <div class="chat-input-wrapper">
-                <input 
-                    type="text" 
-                    class="chat-input" 
-                    id="chatInput" 
-                    placeholder="Type your message..."
-                    maxlength="500"
-                >
-                <button class="send-btn" onclick="sendMessage()">Send</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Pseudo Setup Modal -->
 <div class="pseudo-modal" id="pseudoModal">
     <div class="pseudo-content">
         <button class="close-btn" onclick="closePseudoModal()" style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border: none; color: white; border-radius: 50%; cursor: pointer; font-size: 1.5em; display: flex; align-items: center; justify-content: center;">×</button>
@@ -4147,45 +2767,13 @@ function applySearch() {
     </div>
 </div>
 
-<!-- Toast Notifications Container -->
-<div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px;"></div>
 
-<!-- Bouton Messages flottant -->
 <div id="messagesFloatingBtn" class="messages-floating-btn" onclick="toggleMessagesPanel()">
     <span class="messages-icon">💬</span>
     <span class="messages-badge hidden" id="messagesBadge">0</span>
 </div>
 
-<!-- Panneau des messages -->
-<div id="messagesPanel" class="messages-panel">
-    <div class="messages-panel-header">
-        <span>💬 New Messages</span>
-        <button class="close-btn" onclick="closeMessagesPanel()">×</button>
-    </div>
-    <div class="messages-panel-list" id="messagesPanelList">
-        <div class="empty-messages">No new messages</div>
-    </div>
-</div>
 
-<script>
-// FORCER le lancement de l'écoute
-console.log('🚀 Lancement forcé de listenToAllChats');
-console.log('userPseudo:', userPseudo);
-console.log('Firebase prêt?', typeof window.firebaseRef);
-
-if (userPseudo) {
-    // Attendre que Firebase soit chargé
-    const interval = setInterval(() => {
-        if (window.firebaseRef) {
-            console.log('✅ Firebase chargé, lancement...');
-            clearInterval(interval);
-            listenToAllChats();
-        }
-    }, 100); // Vérifier toutes les 100ms
-} else {
-    console.log('⚠️ Pas de pseudo, écoute non lancée');
-}
-</script>
 
 </body>
 </html>
