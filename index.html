@@ -29,7 +29,83 @@
 
 
 
-</style>
+
+        /* ===== PARTICULES ===== */
+        #particles-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .container, header, footer { position: relative; z-index: 1; }
+
+        /* ===== LIGHT/DARK TOGGLE ===== */
+        #theme-toggle {
+            position: fixed;
+            top: 18px; right: 18px;
+            z-index: 9999;
+            background: rgba(135,206,235,0.12);
+            border: 1px solid rgba(135,206,235,0.25);
+            color: white;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3em;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s, transform 0.2s;
+            backdrop-filter: blur(8px);
+        }
+        #theme-toggle:hover { background: rgba(135,206,235,0.25); transform: scale(1.1); }
+
+        /* LIGHT MODE */
+        body.light-mode {
+            background: linear-gradient(160deg, #e8f4fd 0%, #d0eaf7 40%, #c5e3f5 100%) !important;
+            color: #0a1628 !important;
+        }
+        body.light-mode .nft-card { background: rgba(255,255,255,0.85) !important; border-color: rgba(30,90,180,0.15) !important; }
+        body.light-mode .nft-title { color: #0d1b2e !important; }
+        body.light-mode .nft-date { color: rgba(30,90,180,0.5) !important; }
+        body.light-mode .count { color: #444 !important; }
+        body.light-mode .count span { color: #0a1628 !important; }
+        body.light-mode #listedCount { color: #22c55e !important; }
+        body.light-mode #notListedCount { color: #ef4444 !important; }
+        body.light-mode header { background: transparent !important; }
+        body.light-mode .sort-btn { background: rgba(30,90,180,0.08) !important; color: rgba(30,90,180,0.8) !important; border-color: rgba(30,90,180,0.2) !important; }
+        body.light-mode input#searchInput { background: rgba(30,90,180,0.07) !important; border-color: rgba(30,90,180,0.2) !important; color: #0a1628 !important; }
+        body.light-mode footer { background: rgba(200,230,250,0.9) !important; border-color: rgba(30,90,180,0.15) !important; }
+        body.light-mode .footer-link { color: #444 !important; }
+        body.light-mode .char { color: #0a1628 !important; text-shadow: 0 0 20px rgba(30,90,180,0.4) !important; }
+        body.light-mode .subtitle { color: rgba(30,90,180,0.5) !important; }
+        body.light-mode .modal-content { background: #e8f4fd !important; }
+
+        /* ===== CARTES (hover normal, pas de fade-in opacity) ===== */
+        .nft-card.visible {
+            opacity: 1;
+        }
+
+        /* ===== SHINE EFFECT ===== */
+        .nft-image-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .nft-image-container::after {
+            content: '';
+            position: absolute;
+            top: -100%; left: -60%;
+            width: 40%; height: 300%;
+            background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
+            transform: skewX(-15deg);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+        .nft-card:hover .nft-image-container::after {
+            left: 130%;
+        }
+
+
+
+        </style>
 
 
 </head>
@@ -564,6 +640,9 @@ footer {
 
 </head>  
 <body>
+<canvas id="particles-canvas"></canvas>
+<button id="theme-toggle" title="Toggle dark/light mode" aria-label="Toggle theme"></button>
+
 
 
     <div class="container">
@@ -2289,7 +2368,6 @@ footer {
                  let sortOrder = 'desc';
                 const listingCache = {};
                 const CACHE_DURATION = 1.5 * 60 * 1000; // 1.5 minutes en millisecondes
-                let countersLocked = false; // Flag pour figer les compteurs après le chargement
 
                 let listedCount = 0;      // 👈 AJOUTE
                 let notListedCount = 0;   // 👈 AJOUTE
@@ -2520,11 +2598,9 @@ function setFilterListing(type) {
     const gallery = document.getElementById('gallery');
     const totalCount = document.getElementById('totalCount');
     
-    // Réinitialiser les compteurs affichés SEULEMENT si ce n'est pas verrouillé
-    if (!countersLocked) {
-        document.getElementById('listedCount').textContent = '0';
-        document.getElementById('notListedCount').textContent = '0';
-    }
+    // Réinitialiser les compteurs
+    document.getElementById('listedCount').textContent = '0';
+    document.getElementById('notListedCount').textContent = '0';
     
     nfts.forEach(nft => { if (!nft.beepleDay) nft.beepleDay = nft.beepleDate; });
     
@@ -2608,7 +2684,8 @@ function setFilterListing(type) {
     });
     
     // Recalculer les compteurs une fois à la fin
-    if (!countersLocked) {
+    // Plusieurs passes pour s'assurer que l'API a répondu
+    [sortedNfts.length * 500 + 2000, sortedNfts.length * 500 + 5000, sortedNfts.length * 500 + 10000].forEach(delay => {
         setTimeout(() => {
             const allBadges = document.querySelectorAll('.listing-badge');
             let listed = 0;
@@ -2617,11 +2694,12 @@ function setFilterListing(type) {
                 if (b.classList.contains('listed')) listed++;
                 if (b.classList.contains('not-listed')) notListed++;
             });
-            document.getElementById('listedCount').textContent = listed;
-            document.getElementById('notListedCount').textContent = notListed;
-            countersLocked = true; // Verrouiller les compteurs une fois calculés
-        }, sortedNfts.length * 500 + 1000);
-    }
+            const listedEl = document.getElementById('listedCount');
+            const notListedEl = document.getElementById('notListedCount');
+            if (listedEl) listedEl.textContent = listed;
+            if (notListedEl) notListedEl.textContent = notListed;
+        }, delay);
+    });
 }
 
 // Fonction pour rafraîchir automatiquement les prix
@@ -2774,6 +2852,65 @@ function applySearch() {
 </div>
 
 
+
+
+<script>
+// ===== PARTICULES PIXEL =====
+(function(){
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let W = canvas.width = window.innerWidth;
+    let H = canvas.height = window.innerHeight;
+    window.addEventListener('resize', () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; });
+
+    const COLORS = ['#87CEEB','#5fa8d3','#ffffff','#4a90d9','#a8d8ea'];
+    const COUNT = 80;
+    const particles = Array.from({length: COUNT}, () => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        size: Math.floor(Math.random() * 3) + 1, // pixel sizes 1-3
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: -Math.random() * 0.5 - 0.1,
+        alpha: Math.random() * 0.5 + 0.2,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)]
+    }));
+
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach(p => {
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size); // pixel art: fillRect carré
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+            if (p.x < -5) p.x = W + 5;
+            if (p.x > W + 5) p.x = -5;
+        });
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+// ===== LIGHT/DARK TOGGLE =====
+(function(){
+    const btn = document.getElementById('theme-toggle');
+    const moonSVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+    const sunSVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+    let dark = true;
+    btn.innerHTML = moonSVG;
+    btn.addEventListener('click', () => {
+        dark = !dark;
+        document.body.classList.toggle('light-mode', !dark);
+        btn.innerHTML = dark ? moonSVG : sunSVG;
+    });
+})();
+
+// scroll fade-in désactivé
+
+// compteur animé désactivé
+</script>
 
 </body>
 </html>
