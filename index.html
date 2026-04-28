@@ -2759,12 +2759,12 @@ function setFilterListing(type) {
 
                 
             }
-        }, index * 500);
+        }, index * 800);
     });
     
     // Recalculer les compteurs une fois à la fin
     // Plusieurs passes pour s'assurer que l'API a répondu
-    [sortedNfts.length * 500 + 2000, sortedNfts.length * 500 + 5000, sortedNfts.length * 500 + 10000].forEach(delay => {
+    [sortedNfts.length * 800 + 2000, sortedNfts.length * 800 + 5000, sortedNfts.length * 800 + 10000].forEach(delay => {
         setTimeout(() => {
             const allBadges = document.querySelectorAll('.listing-badge');
             let listed = 0;
