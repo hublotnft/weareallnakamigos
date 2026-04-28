@@ -634,6 +634,78 @@ footer {
 
 
 
+
+/* ===== TICKER / FRESQUE ===== */
+.ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    background: rgba(135,206,235,0.04);
+    border-top: 1px solid rgba(135,206,235,0.08);
+    border-bottom: 1px solid rgba(135,206,235,0.08);
+    padding: 8px 0;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+}
+.ticker-wrap::before,
+.ticker-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+}
+.ticker-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, #0a0e1a, transparent);
+}
+.ticker-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, #0a0e1a, transparent);
+}
+.ticker-track {
+    display: flex;
+    gap: 10px;
+    animation: tickerScroll 300s linear infinite;
+    width: max-content;
+}
+.ticker-track:hover { animation-play-state: paused; }
+@keyframes tickerScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(135,206,235,0.05);
+    border: 1px solid rgba(135,206,235,0.1);
+    border-radius: 8px;
+    padding: 4px 10px 4px 5px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.15s, border 0.15s;
+    flex-shrink: 0;
+}
+.ticker-item:hover {
+    background: rgba(135,206,235,0.12);
+    border-color: rgba(135,206,235,0.28);
+}
+.ticker-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
+    object-fit: cover;
+    image-rendering: pixelated;
+    border: 1px solid rgba(135,206,235,0.18);
+    background: #0d1b2e;
+    flex-shrink: 0;
+}
+.ticker-info { display: flex; flex-direction: column; }
+.ticker-name { font-size: 11px; font-weight: 600; color: #e8f4fd; line-height: 1.3; }
+.ticker-price { font-size: 10px; color: #22c55e; line-height: 1.3; }
+
 </style>
    </style>
 
@@ -661,6 +733,12 @@ footer {
     <span id="notListedCount" style="color:#ef4444">0</span> Not Listed
 </div>
         
+
+<!-- FRESQUE / TICKER -->
+<div class="ticker-wrap">
+    <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
 <div style="max-width:1600px;margin:0 auto 20px;">
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;">
     <div style="position:relative;flex:1;min-width:200px;">
@@ -2661,6 +2739,7 @@ function setFilterListing(type) {
                     badge.classList.remove('not-listed');
                     badge.classList.add('listed');
                     badge.innerHTML = `🟢 ${listing.price || '0.00'} ETH`;
+                updateTickerItem(nft.tokenId, listing.price);
                 } else {
                     badge.classList.remove('listed');
                     badge.classList.add('not-listed');
@@ -2735,6 +2814,7 @@ function refreshListings() {
                         badge.classList.remove('not-listed');
                         badge.classList.add('listed');
                         badge.innerHTML = `🟢 ${listing.price || '0.00'} ETH`;
+                updateTickerItem(nft.tokenId, listing.price);
                     } else {
                         badge.classList.remove('listed');
                         badge.classList.add('not-listed');
@@ -2824,15 +2904,75 @@ function applySearch() {
     });
 }
 
+
+// ===== FRESQUE TICKER =====
+function buildTicker() {
+    const track = document.getElementById('tickerTrack');
+    if (!track) return;
+    // Get unique nakas
+    const unique = [...new Map(nfts.map(n => [n.tokenId, n])).values()];
+    // Duplicate for infinite loop
+    const all = [...unique, ...unique];
+    track.innerHTML = all.map(n => {
+        const cached = listingCache[n.tokenId];
+        const isListed = cached && cached.data && cached.data.isListed;
+        const price = isListed ? cached.data.price : null;
+        return `
+        <div class="ticker-item" onclick="openModal(${JSON.stringify(n).replace(/"/g, '&quot;')})">
+            <img class="ticker-img" src="${n.nakamigoImage}" alt="#${n.tokenId}" onerror="this.style.opacity='0.3'">
+            <div class="ticker-info">
+                <div class="ticker-name">#${n.tokenId}</div>
+                ${price ? `<div class="ticker-price">${price} ETH</div>` : ''}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// Update ticker when listings load
+function updateTickerItem(tokenId, price) {
+    const track = document.getElementById('tickerTrack');
+    if (!track) return;
+    track.querySelectorAll('.ticker-item').forEach(item => {
+        const name = item.querySelector('.ticker-name');
+        if (name && name.textContent === '#' + tokenId && price) {
+            let priceEl = item.querySelector('.ticker-price');
+            if (!priceEl) {
+                priceEl = document.createElement('div');
+                priceEl.className = 'ticker-price';
+                item.querySelector('.ticker-info').appendChild(priceEl);
+            }
+            priceEl.textContent = price + ' ETH';
+        }
+    });
+}
+
+        buildTicker();
         renderNFTs();
 
     </script>
 
 
+<div class="pseudo-modal" id="pseudoModal">
+    <div class="pseudo-content">
+        
+        <div class="pseudo-title">👋 Welcome to Chat!</div>
+        <div class="pseudo-subtitle">Choose a nickname to start chatting</div>
+        <input 
+            type="text" 
+            class="pseudo-input" 
+            id="pseudoInput" 
+            placeholder="Enter your nickname..."
+            maxlength="20"
+        >
+        <button class="pseudo-btn" onclick="setPseudo()">Start Chatting</button>
+    </div>
+</div>
 
 
-
-
+<div id="messagesFloatingBtn" class="messages-floating-btn" onclick="toggleMessagesPanel()">
+    <span class="messages-icon">💬</span>
+    <span class="messages-badge hidden" id="messagesBadge">0</span>
+</div>
 
 
 
