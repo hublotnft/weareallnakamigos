@@ -78,7 +78,30 @@
         body.light-mode .char { color: #0a1628 !important; text-shadow: 0 0 20px rgba(30,90,180,0.4) !important; }
         body.light-mode .subtitle { color: rgba(30,90,180,0.5) !important; }
         body.light-mode .modal-content { background: #e8f4fd !important; }
-
+        
+        body.light-mode .ticker-wrap {
+    background: rgba(30,90,180,0.05) !important;
+    border-color: rgba(30,90,180,0.15) !important;
+}
+body.light-mode .ticker-item {
+    background: rgba(30,90,180,0.07) !important;
+    border-color: rgba(30,90,180,0.18) !important;
+}
+body.light-mode .ticker-name {
+    color: #0d1b2e !important;
+}
+body.light-mode .ticker-price {
+    color: #16a34a !important;
+}
+body.light-mode .ticker-wrap::before {
+    background: linear-gradient(to right, #e8f4fd, transparent) !important;
+}
+body.light-mode .ticker-wrap::after {
+    background: linear-gradient(to left, #e8f4fd, transparent) !important;
+}
+body.light-mode .ticker-img {
+    border-color: rgba(30,90,180,0.2) !important;
+}
         /* ===== CARTES (hover normal, pas de fade-in opacity) ===== */
         .nft-card.visible {
             opacity: 1;
