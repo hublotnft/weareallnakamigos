@@ -2589,8 +2589,8 @@ async function loadAllListings() {
                     if (tokenId && priceWei) {
                         const priceEth = parseInt(priceWei) / 1e18;
                         // Garder le prix le plus bas si plusieurs listings pour même token
-                        if (!listedMap[tokenId] || priceEth < listedMap[tokenId]) {
-                            listedMap[tokenId] = priceEth;
+                        if (!window.listedMap[tokenId] || priceEth < listedMap[tokenId]) {
+                            window.listedMap[tokenId] = priceEth;
                         }
                     }
                 });
@@ -2612,7 +2612,7 @@ async function loadAllListings() {
 
 function checkListingFromCache(tokenId) {
     if (tokenId.toString().includes('11027')) return { isListed: false, price: null };
-    const price = listedMap[tokenId.toString()];
+    const price = window.listedMap[tokenId.toString()];
     if (price !== undefined) {
         return { isListed: true, price: price.toFixed(3) };
     }
