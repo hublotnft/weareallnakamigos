@@ -2584,7 +2584,7 @@ async function loadAllListings() {
             const data = await response.json();
             if (data.listings) {
                 data.listings.forEach(lst => {
-                    const tokenId = lst.protocol_data?.parameters?.offer?.[0]?.identifierOrCriteria;
+                    const tokenId = lst.protocol_data?.parameters?.offer?.[0]?.identifierOrCriteria || lst.taker_asset_bundle?.assets?.[0]?.token_id || lst.maker_asset_bundle?.assets?.[0]?.token_id;
                     const priceWei = lst.price?.current?.value;
                     if (tokenId && priceWei) {
                         const priceEth = parseInt(priceWei) / 1e18;
