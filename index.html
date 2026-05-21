@@ -2549,7 +2549,7 @@ footer {
 
                 
 // ===== LISTINGS : 1 fetch collection au lieu de 198 appels =====
-const listedMap = {}; // { tokenId: price }
+window.listedMap = {}; // { tokenId: price }
 let listingsReady = false;
 
 async function loadAllListings() {
