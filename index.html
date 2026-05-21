@@ -564,6 +564,8 @@ body.light-mode .ticker-img {
 
         /* Footer */
 footer {
+    position: relative;
+    z-index: 0;
     background: rgba(10, 20, 45, 0.9);
     border-top: 1px solid rgba(135,206,235,0.12);
     padding: 40px 20px;
@@ -2528,7 +2530,7 @@ footer {
         const NAKAMIGOS_CONTRACT = "0xd774557b647330c91bf44cfeab205095f7e6c367";
           
 
-          const OPENSEA_API_KEY = "4a3cf45125934579ac373316df1e9f7e"; //public key
+          const OPENSEA_API_KEY = "8786cdb5ce1c4360a52ee22424c9595b"; //public key
 
                  let sortOrder = 'desc';
                 const listingCache = {};
@@ -2804,70 +2806,73 @@ function setFilterListing(type) {
 
     totalCount.textContent = nfts.length;
 
-    // Vérifier les listings
-    sortedNfts.forEach((nft, index) => {
-        setTimeout(async () => {
-            let listing;
-            if (nft.tokenId.toString().includes('11027')) {
-                listing = { isListed: false, price: null };
-                console.log(`🎯 FORCED ${nft.tokenId}`);
-            } else {
-                listing = await checkListing(nft.tokenId);
-            }
-            
-            const badge = document.getElementById(`listing-${index}-${nft.tokenId}`);
-            console.log(`Badge ${nft.tokenId}:`, badge, listing);
-            
-            if (badge) {
-                // Retire la classe loading d'abord
-                badge.classList.remove('loading');
-                
-                if (listing.isListed) {
-                    badge.classList.remove('not-listed');
-                    badge.classList.add('listed');
-                    badge.innerHTML = `🟢 ${listing.price || '0.00'} ETH`;
-                updateTickerItem(nft.tokenId, listing.price);
+    // Vérifier les listings — UNE SEULE FOIS au chargement
+    if (!window.listingsLoaded) {
+        window.listingsLoaded = true;
+        sortedNfts.forEach((nft, index) => {
+            setTimeout(async () => {
+                let listing;
+                if (nft.tokenId.toString().includes('11027')) {
+                    listing = { isListed: false, price: null };
                 } else {
-                    badge.classList.remove('listed');
-                    badge.classList.add('not-listed');
-                    badge.innerHTML = '🔴 Not listed';
+                    listing = await checkListing(nft.tokenId);
                 }
-                
-                const nftCard = badge.closest('.nft-card');
-                if (nftCard) {
-                    if (filterListing === 'listed' && !listing.isListed) {
-                        nftCard.style.display = 'none';
-                    } else if (filterListing === 'not-listed' && listing.isListed) {
-                        nftCard.style.display = 'none';
+                // Stocker sur l'objet nft pour réutilisation
+                nft._listing = listing;
+
+                const badge = document.getElementById(`listing-${index}-${nft.tokenId}`);
+                if (badge) {
+                    badge.classList.remove('loading');
+                    if (listing.isListed) {
+                        badge.classList.remove('not-listed');
+                        badge.classList.add('listed');
+                        badge.innerHTML = `🟢 ${listing.price || '0.00'} ETH`;
+                        updateTickerItem(nft.tokenId, listing.price);
                     } else {
-                        nftCard.style.display = '';
+                        badge.classList.remove('listed');
+                        badge.classList.add('not-listed');
+                        badge.innerHTML = '🔴 Not listed';
                     }
+                    const nftCard = badge.closest('.nft-card');
+                    if (nftCard) {
+                        if (filterListing === 'listed' && !listing.isListed) nftCard.style.display = 'none';
+                        else if (filterListing === 'not-listed' && listing.isListed) nftCard.style.display = 'none';
+                        else nftCard.style.display = '';
+                    }
+                    updateCounts();
                 }
-
-                
+            }, index * 800);
+        });
+    } else {
+        // Listings déjà en cache — afficher directement sans appel API
+        sortedNfts.forEach((nft, index) => {
+            const badge = document.getElementById(`listing-${index}-${nft.tokenId}`);
+            if (!badge) return;
+            const listing = nft._listing;
+            if (listing === undefined) {
+                badge.classList.add('loading');
+                return;
             }
-        }, index * 800);
-    });
-    
-    // Recalculer les compteurs une fois à la fin
-    // Plusieurs passes pour s'assurer que l'API a répondu
-    [sortedNfts.length * 800 + 2000, sortedNfts.length * 800 + 5000, sortedNfts.length * 800 + 10000].forEach(delay => {
-        setTimeout(() => {
-            const allBadges = document.querySelectorAll('.listing-badge');
-            let listed = 0;
-            let notListed = 0;
-            allBadges.forEach(b => {
-                if (b.classList.contains('listed')) listed++;
-                if (b.classList.contains('not-listed')) notListed++;
-            });
-            const listedEl = document.getElementById('listedCount');
-            const notListedEl = document.getElementById('notListedCount');
-            if (listedEl) listedEl.textContent = listed;
-            if (notListedEl) notListedEl.textContent = notListed;
-        }, delay);
-    });
+            badge.classList.remove('loading');
+            if (listing.isListed) {
+                badge.classList.remove('not-listed');
+                badge.classList.add('listed');
+                badge.innerHTML = `🟢 ${listing.price || '0.00'} ETH`;
+            } else {
+                badge.classList.remove('listed');
+                badge.classList.add('not-listed');
+                badge.innerHTML = '🔴 Not listed';
+            }
+            const nftCard = badge.closest('.nft-card');
+            if (nftCard) {
+                if (filterListing === 'listed' && !listing.isListed) nftCard.style.display = 'none';
+                else if (filterListing === 'not-listed' && listing.isListed) nftCard.style.display = 'none';
+                else nftCard.style.display = '';
+            }
+        });
+        updateCounts();
+    }
 }
-
 // Fonction pour rafraîchir automatiquement les prix
 function refreshListings() {
     console.log('🔄 Rafraîchissement automatique des prix...');
