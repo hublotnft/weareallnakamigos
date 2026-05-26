@@ -136,6 +136,97 @@ body.light-mode .ticker-img {
 
 
 
+
+        /* ===== ONGLETS ===== */
+        .view-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .view-tab {
+            font-family: inherit;
+            background: rgba(135,206,235,0.07);
+            border: 1px solid rgba(135,206,235,0.18);
+            color: rgba(135,206,235,0.7);
+            padding: 10px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.15s ease;
+        }
+        .view-tab:hover { background: rgba(135,206,235,0.13); color: #87CEEB; }
+        .view-tab.active {
+            background: linear-gradient(90deg, #1a4a8a, #87CEEB);
+            border-color: transparent;
+            color: white;
+        }
+
+        /* ===== SIGNED EDITIONS ===== */
+        #signedView { display: none; }
+        .signed-grid { display: flex; flex-direction: column; gap: 24px; max-width: 900px; margin: 0 auto 60px; }
+        .print-card { background: rgba(10,20,45,0.85); border-radius: 14px; border: 1px solid rgba(135,206,235,0.1); overflow: hidden; transition: box-shadow 0.2s; }
+        .print-card:hover { box-shadow: 0 8px 30px rgba(30,90,180,0.25), 0 0 0 1px rgba(135,206,235,0.18); }
+        .print-top { display: grid; grid-template-columns: 1fr 1px 1fr; }
+        .print-side { display: flex; flex-direction: column; }
+        .print-side-label { font-size: 10px; color: rgba(135,206,235,0.35); letter-spacing: 2px; padding: 10px 14px 6px; text-transform: uppercase; }
+        .print-naka-img { width: 100%; aspect-ratio: 1; object-fit: cover; image-rendering: pixelated; background: #0d1b2e; }
+        .print-scan-img { width: 100%; aspect-ratio: 0.77; object-fit: cover; background: #f0f0f0; }
+        .print-divider { background: rgba(135,206,235,0.08); }
+        .print-info { padding: 14px 16px; border-top: 1px solid rgba(135,206,235,0.07); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+        .print-name { font-size: 14px; font-weight: 600; color: #e8f4fd; }
+        .print-traits { font-size: 11px; color: rgba(135,206,235,0.35); margin-top: 3px; }
+        .print-signed-badge { display: flex; align-items: center; gap: 6px; background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.25); border-radius: 20px; padding: 4px 14px; font-size: 11px; color: #22c55e; white-space: nowrap; }
+        .signed-header { text-align: center; padding: 0 20px 24px; }
+        .signed-header-title { font-family: monospace; font-size: 0.7em; color: rgba(135,206,235,0.5); letter-spacing: 4px; }
+        body.light-mode .print-card { background: rgba(255,255,255,0.85) !important; border-color: rgba(30,90,180,0.15) !important; }
+        body.light-mode .print-name { color: #0d1b2e !important; }
+        body.light-mode .print-divider { background: rgba(30,90,180,0.1) !important; }
+        body.light-mode .print-side-label { color: rgba(30,90,180,0.4) !important; }
+
+        /* ===== THE WALL NAKAMIGOS ===== */
+        #wallView { display: none; }
+        .wall-header { text-align: center; padding: 0 20px 30px; }
+        .wall-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.1em;
+            color: white;
+            text-shadow: 0 0 20px rgba(135,206,235,0.5);
+            margin-bottom: 10px;
+        }
+        .wall-subtitle {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.5em;
+            color: rgba(135,206,235,0.4);
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+        }
+        .wall-desc {
+            font-size: 13px;
+            color: rgba(135,206,235,0.5);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        .wall-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 16px 0 24px;
+            flex-wrap: wrap;
+        }
+        .wall-stat { text-align: center; }
+        .wall-stat-num { font-size: 1.4em; font-weight: 700; color: white; }
+        .wall-stat-label { font-size: 11px; color: rgba(135,206,235,0.4); margin-top: 2px; }
+        .wall-fresque { background: #7ba7f5; padding: 6px; border-radius: 10px; max-width: 1600px; margin: 0 auto 60px; }
+        .wall-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 2px; }
+        .wall-cell { width: 100%; aspect-ratio: 1; border-radius: 3px; overflow: hidden; background: rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.15s; position: relative; z-index: 1; }
+        .wall-cell:hover { transform: scale(2); z-index: 10; box-shadow: 0 4px 14px rgba(0,0,0,0.5); border-radius: 4px; }
+        .wall-cell img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; display: block; }
+        body.light-mode .wall-desc { color: rgba(30,90,180,0.6) !important; }
+        body.light-mode .wall-stat-label { color: rgba(30,90,180,0.5) !important; }
         </style>
 
 
@@ -763,14 +854,41 @@ footer {
     <span id="listedCount" style="color:#22c55e">0</span> Listed | 
     <span id="notListedCount" style="color:#ef4444">0</span> Not Listed
 </div>
-        
+
+<!-- ONGLETS -->
+<div class="view-tabs">
+    <button class="view-tab active" id="tab-everydays" onclick="switchView('everydays')">Everydays</button>
+    <button class="view-tab" id="tab-signed" onclick="switchView('signed')" style="display:none">Signed Editions</button>
+    <button class="view-tab" id="tab-wall" onclick="switchView('wall')" style="display:none">The Wall Nakamigos</button>
+</div>
+
+<!-- VUE SIGNED EDITIONS -->
+<div id="signedView" style="display:none">
+    <div class="signed-header">
+        <div class="signed-header-title">V.0 CRYPTOPUNKS × BEEPLE STUDIOS — OFFICIAL SIGNED PRINTS</div>
+    </div>
+    <div class="signed-grid" id="signedGrid"></div>
+</div>
+
+<!-- VUE THE WALL NAKAMIGOS -->
+<div id="wallView" style="display:none">
+    <div class="wall-header">
+        <div class="wall-title">The Wall Nakamigos</div>
+        <div class="wall-subtitle">We Are All Nakamigos</div>
+        <p class="wall-desc">Beeple is one of the most iconic artists in the Web3 space, known for his "Everydays" — a daily art practice he has maintained without interruption for over a decade. Since the launch of Nakamigos in March 2023, Beeple began incorporating these pixel art characters into his work almost immediately, weaving them into the fabric of his daily creations.<br><br>Day after day, Nakamigos appear in his Everydays — some pieces are sought after by collectors as unique digital artifacts, others traded by speculators chasing value. But beyond the market, something deeper is happening. Beeple's continued support has become a symbol of hope for the community.<br><br>What makes it even more meaningful is that Nakamigos and its team, Hifo Labs, have remained anonymous since day one. In a space where identity often drives credibility, having a figure as renowned as Beeple stand behind the project speaks volumes. For many in the community, he is more than an artist — he is a flag bearer.<br><br>The wall below is a testament to that story — every Nakamigos that ever appeared in Beeple's Everydays.</p>
+    </div>
+    <div class="wall-fresque">
+        <div class="wall-grid" id="wallGrid"></div>
+    </div>
+</div>
+
 
 <!-- FRESQUE / TICKER -->
 <div class="ticker-wrap">
     <div class="ticker-track" id="tickerTrack"></div>
 </div>
 
-<div style="max-width:1600px;margin:0 auto 20px;">
+<div class="controls-wrap" style="max-width:1600px;margin:0 auto 20px;">
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;">
     <div style="position:relative;flex:1;min-width:200px;">
       <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:rgba(135,206,235,0.4);font-size:14px;pointer-events:none;">🔍</span>
@@ -2977,6 +3095,120 @@ function applySearch() {
 }
 
 
+
+// ===== FLAGS =====
+const SHOW_SIGNED_EDITIONS = false;
+const SHOW_WALL = true;
+
+// ===== SIGNED EDITIONS =====
+const signedPrints = [
+    {
+        tokenId: "3648",
+        nakamigoImage: "https://i.ibb.co/7NZfzp4c/3648.avif",
+        printImage: "",
+        rarityRank: "#9251",
+        traits: "TYPE: ZOMBIE · TRAITS: 3",
+        signedBy: "Beeple + Matt Hall"
+    },
+    {
+        tokenId: "11085",
+        nakamigoImage: "https://i.ibb.co/ZRkGmRDr/11085.avif",
+        printImage: "",
+        rarityRank: "#3074",
+        traits: "TYPE: BOT · TRAITS: 2",
+        signedBy: "Beeple + Matt Hall"
+    },
+    // { tokenId: "XXXXX", nakamigoImage: "...", printImage: "...", rarityRank: "#XXXX", traits: "TYPE: XXX · TRAITS: X", signedBy: "Beeple + Matt Hall" },
+];
+
+function renderSigned() {
+    const grid = document.getElementById('signedGrid');
+    if (!grid) return;
+    grid.innerHTML = signedPrints.map(p => `
+        <div class="print-card">
+            <div class="print-top">
+                <div class="print-side">
+                    <div class="print-side-label">Nakamigos</div>
+                    <img class="print-naka-img" src="${p.nakamigoImage}" alt="#${p.tokenId}">
+                </div>
+                <div class="print-divider"></div>
+                <div class="print-side">
+                    <div class="print-side-label">V.0 CryptoPunks — Signed</div>
+                    ${p.printImage
+                        ? `<img class="print-scan-img" src="${p.printImage}" alt="Print #${p.tokenId}">`
+                        : `<div style="width:100%;aspect-ratio:0.77;background:#1a2a3a;display:flex;align-items:center;justify-content:center;color:rgba(135,206,235,0.3);font-size:12px;letter-spacing:1px;">Scan à venir</div>`
+                    }
+                </div>
+            </div>
+            <div class="print-info">
+                <div>
+                    <div class="print-name">Nakamigos #${p.tokenId}</div>
+                    <div class="print-traits">${p.traits} · Rarity ${p.rarityRank}</div>
+                </div>
+                <div class="print-signed-badge">✍️ ${p.signedBy}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===== THE WALL NAKAMIGOS =====
+function renderWall() {
+    const grid = document.getElementById('wallGrid');
+    if (!grid || grid.children.length > 0) return;
+    const unique = [...new Map(nfts.map(n => [n.tokenId, n])).values()];
+    unique.forEach(n => {
+        const cell = document.createElement('div');
+        cell.className = 'wall-cell';
+        cell.title = '#' + n.tokenId;
+        const img = document.createElement('img');
+        img.src = n.nakamigoImage;
+        img.alt = '#' + n.tokenId;
+        img.loading = 'lazy';
+        cell.appendChild(img);
+        grid.appendChild(cell);
+    });
+}
+
+function switchView(view) {
+    const everydaysEl = document.getElementById('gallery');
+    const tickerEl = document.querySelector('.ticker-wrap');
+    const controlsEl = document.querySelector('.controls-wrap');
+    const signedEl = document.getElementById('signedView');
+    const wallEl = document.getElementById('wallView');
+    const countEl = document.querySelector('.count');
+    const tabs = { everydays: 'tab-everydays', signed: 'tab-signed', wall: 'tab-wall' };
+
+    // Reset all tabs
+    Object.values(tabs).forEach(id => {
+        const t = document.getElementById(id);
+        if (t) t.classList.remove('active');
+    });
+    const activeTab = document.getElementById(tabs[view]);
+    if (activeTab) activeTab.classList.add('active');
+
+    // Hide all views
+    if (everydaysEl) everydaysEl.style.display = 'none';
+    if (tickerEl) tickerEl.style.display = 'none';
+    if (controlsEl) controlsEl.style.display = 'none';
+    if (countEl) countEl.style.display = 'none';
+    if (signedEl) signedEl.style.display = 'none';
+    if (wallEl) wallEl.style.display = 'none';
+
+    // Show selected view
+    if (view === 'everydays') {
+        if (everydaysEl) everydaysEl.style.display = '';
+        if (tickerEl) tickerEl.style.display = '';
+        if (controlsEl) controlsEl.style.display = '';
+        if (countEl) countEl.style.display = '';
+    } else if (view === 'signed') {
+        if (signedEl) signedEl.style.display = 'block';
+        renderSigned();
+    } else if (view === 'wall') {
+        if (wallEl) wallEl.style.display = 'block';
+        renderWall();
+    }
+}
+
 // ===== FRESQUE TICKER =====
 function buildTicker() {
     const track = document.getElementById('tickerTrack');
@@ -3019,6 +3251,8 @@ function updateTickerItem(tokenId, price) {
 }
 
         buildTicker();
+        if (SHOW_SIGNED_EDITIONS) { const t = document.getElementById('tab-signed'); if (t) t.style.display = ''; }
+        if (SHOW_WALL) { const t = document.getElementById('tab-wall'); if (t) t.style.display = ''; }
         renderNFTs(); // Affiche les cartes immédiatement
         loadAllListings().then(() => renderNFTs()); // Réapplique avec les listings
 
