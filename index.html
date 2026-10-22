@@ -2920,7 +2920,7 @@ footer {
         const NAKAMIGOS_CONTRACT = "0xd774557b647330c91bf44cfeab205095f7e6c367";
           
 
-          const OPENSEA_API_KEY = "8786cdb5ce1c4360a52ee22424c9595b"; //public key
+          const OPENSEA_API_KEY = ""; //public key
 
                  let sortOrder = 'desc';
                 const listingCache = {};
@@ -2944,12 +2944,12 @@ async function loadAllListings() {
     try {
         do {
             const url = next
-                ? `https://api.opensea.io/api/v2/listings/collection/nakamigos/all?limit=100&next=${encodeURIComponent(next)}`
-                : `https://api.opensea.io/api/v2/listings/collection/nakamigos/all?limit=100`;
+                ? `https://nakamigos-opensea.4wgp5hd7py.workers.dev/?next=${encodeURIComponent(next)}`
+                : `https://nakamigos-opensea.4wgp5hd7py.workers.dev/`;
 
             const response = await fetch(url, {
                 headers: {
-                    'X-API-KEY': OPENSEA_API_KEY,
+                    
                     'Accept': 'application/json'
                 }
             });
