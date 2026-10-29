@@ -529,6 +529,60 @@ body.light-mode .ticker-img {
             display: flex;
         }
 
+
+        /* ===== MODAL NAV ARROWS ===== */
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: rgba(135,206,235,0.12);
+            border: 1px solid rgba(135,206,235,0.3);
+            color: #87CEEB;
+            font-size: 1.4em;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, border-color 0.2s;
+            z-index: 1010;
+            backdrop-filter: blur(6px);
+        }
+        .modal-nav:hover {
+            background: rgba(135,206,235,0.25);
+            border-color: rgba(135,206,235,0.6);
+            transform: translateY(-50%) scale(1.08);
+        }
+        .modal-nav:active { transform: translateY(-50%) scale(0.96); }
+        .modal-nav-prev { left: calc(50% - 620px); }
+        .modal-nav-next { right: calc(50% - 620px); }
+        @media (max-width: 1280px) {
+            .modal-nav-prev { left: 12px; }
+            .modal-nav-next { right: 12px; }
+        }
+        @media (max-width: 780px) {
+            .modal-nav { top: auto; bottom: 16px; transform: none; }
+            .modal-nav:hover { transform: scale(1.08); }
+            .modal-nav:active { transform: scale(0.96); }
+            .modal-nav-prev { left: 20px; }
+            .modal-nav-next { right: 20px; }
+        }
+        .modal-counter {
+            position: absolute;
+            bottom: 18px; left: 50%;
+            transform: translateX(-50%);
+            background: rgba(135,206,235,0.10);
+            border: 1px solid rgba(135,206,235,0.18);
+            color: rgba(135,206,235,0.6);
+            font-size: 0.75em;
+            padding: 4px 14px;
+            border-radius: 20px;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        body.light-mode .modal-nav { color: #1a5ca8; border-color: rgba(30,90,180,0.3); background: rgba(30,90,180,0.08); }
+        body.light-mode .modal-nav:hover { background: rgba(30,90,180,0.18); border-color: rgba(30,90,180,0.5); }
+        body.light-mode .modal-counter { color: rgba(30,90,180,0.5); border-color: rgba(30,90,180,0.2); background: rgba(30,90,180,0.06); }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -918,6 +972,8 @@ footer {
 
     <!-- Modal -->
     <div class="modal" id="modal">
+        <button class="modal-nav modal-nav-prev" id="modalPrev" onclick="modalNavigate(-1)">&#8592;</button>
+        <button class="modal-nav modal-nav-next" id="modalNext" onclick="modalNavigate(1)">&#8594;</button>
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">×</button>
             <div class="modal-header">
@@ -944,6 +1000,7 @@ footer {
                     </div>
                 </div>
             </div>
+            <div class="modal-counter" id="modalCounter"></div>
         </div>
     </div>
 
@@ -3049,16 +3106,34 @@ function setFilterListing(type) {
             return `https://opensea.io/item/ethereum/${NAKAMIGOS_CONTRACT}/${tokenId}`;
         }
 
-        function openModal(nft) {
+        let _modalIndex = 0;
+        let _modalList = [];
+
+        function openModal(nft, list, idx) {
+            _modalList = list || (typeof filteredNfts !== 'undefined' ? filteredNfts : nfts);
+            _modalIndex = (idx !== undefined) ? idx : _modalList.findIndex(n => n.tokenId === nft.tokenId);
+            if (_modalIndex < 0) _modalIndex = 0;
+            _renderModal(_modalList[_modalIndex]);
             const modal = document.getElementById('modal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function _renderModal(nft) {
             document.getElementById('modalTitle').textContent = `Nakamigos #${nft.tokenId}`;
             document.getElementById('modalSubtitle').textContent = nft.beepleDate;
             document.getElementById('modalNakamigo').src = nft.nakamigoImage;
             document.getElementById('modalBeeple').src = nft.beepleImage;
             document.getElementById('modalTwitter').href = nft.twitterUrl;
             document.getElementById('modalOpensea').href = generateOpenSeaUrl(nft.tokenId);
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            const counter = document.getElementById('modalCounter');
+            if (counter) counter.textContent = `${_modalIndex + 1} / ${_modalList.length}`;
+        }
+
+        function modalNavigate(dir) {
+            if (!_modalList.length) return;
+            _modalIndex = (_modalIndex + dir + _modalList.length) % _modalList.length;
+            _renderModal(_modalList[_modalIndex]);
         }
 
         function closeModal() {
@@ -3066,6 +3141,14 @@ function setFilterListing(type) {
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
+
+        document.addEventListener('keydown', function(e) {
+            const modal = document.getElementById('modal');
+            if (!modal || !modal.classList.contains('active')) return;
+            if (e.key === 'ArrowLeft') modalNavigate(-1);
+            if (e.key === 'ArrowRight') modalNavigate(1);
+            if (e.key === 'Escape') closeModal();
+        });
 
         // 👇 AJOUTE ICI
         
