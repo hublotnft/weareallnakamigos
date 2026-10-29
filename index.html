@@ -566,22 +566,9 @@ body.light-mode .ticker-img {
             .modal-nav-prev { left: 20px; }
             .modal-nav-next { right: 20px; }
         }
-        .modal-counter {
-            position: absolute;
-            bottom: 18px; left: 50%;
-            transform: translateX(-50%);
-            background: rgba(135,206,235,0.10);
-            border: 1px solid rgba(135,206,235,0.18);
-            color: rgba(135,206,235,0.6);
-            font-size: 0.75em;
-            padding: 4px 14px;
-            border-radius: 20px;
-            pointer-events: none;
-            white-space: nowrap;
-        }
+
         body.light-mode .modal-nav { color: #1a5ca8; border-color: rgba(30,90,180,0.3); background: rgba(30,90,180,0.08); }
         body.light-mode .modal-nav:hover { background: rgba(30,90,180,0.18); border-color: rgba(30,90,180,0.5); }
-        body.light-mode .modal-counter { color: rgba(30,90,180,0.5); border-color: rgba(30,90,180,0.2); background: rgba(30,90,180,0.06); }
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -1000,7 +987,6 @@ footer {
                     </div>
                 </div>
             </div>
-            <div class="modal-counter" id="modalCounter"></div>
         </div>
     </div>
 
@@ -3109,9 +3095,24 @@ function setFilterListing(type) {
         let _modalIndex = 0;
         let _modalList = [];
 
-        function openModal(nft, list, idx) {
-            _modalList = list || (typeof filteredNfts !== 'undefined' ? filteredNfts : nfts);
-            _modalIndex = (idx !== undefined) ? idx : _modalList.findIndex(n => n.tokenId === nft.tokenId);
+        function _getCurrentList() {
+            // Cherche la liste filtrée/triée actuellement affichée dans la grille
+            const cards = document.querySelectorAll('.nft-card');
+            if (!cards.length) return nfts;
+            const ids = Array.from(cards).map(card => {
+                const title = card.querySelector('.nft-title');
+                if (!title) return null;
+                const m = title.textContent.match(/#(\d+)/);
+                return m ? m[1] : null;
+            }).filter(Boolean);
+            if (!ids.length) return nfts;
+            return ids.map(id => nfts.find(n => n.tokenId === id)).filter(Boolean);
+        }
+
+        function openModal(nft) {
+            _modalList = _getCurrentList();
+            _modalIndex = _modalList.findIndex(n => n.tokenId === nft.tokenId);
+            if (_modalIndex < 0) { _modalList = nfts; _modalIndex = nfts.findIndex(n => n.tokenId === nft.tokenId); }
             if (_modalIndex < 0) _modalIndex = 0;
             _renderModal(_modalList[_modalIndex]);
             const modal = document.getElementById('modal');
@@ -3126,8 +3127,7 @@ function setFilterListing(type) {
             document.getElementById('modalBeeple').src = nft.beepleImage;
             document.getElementById('modalTwitter').href = nft.twitterUrl;
             document.getElementById('modalOpensea').href = generateOpenSeaUrl(nft.tokenId);
-            const counter = document.getElementById('modalCounter');
-            if (counter) counter.textContent = `${_modalIndex + 1} / ${_modalList.length}`;
+
         }
 
         function modalNavigate(dir) {
