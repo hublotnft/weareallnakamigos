@@ -227,7 +227,19 @@ body.light-mode .ticker-img {
         .wall-cell img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; display: block; }
         body.light-mode .wall-desc { color: rgba(30,90,180,0.6) !important; }
         body.light-mode .wall-stat-label { color: rgba(30,90,180,0.5) !important; }
-        </style>
+        
+        .modal-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(135,206,235,0.10); border: 1px solid rgba(135,206,235,0.25);
+            color: #87CEEB; font-size: 1.3em;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background 0.2s; z-index: 20;
+        }
+        .modal-nav:hover { background: rgba(135,206,235,0.25); }
+        .modal-nav-prev { left: 12px; }
+        .modal-nav-next { right: 12px; }
+</style>
 
 
 </head>
@@ -919,6 +931,8 @@ footer {
     <!-- Modal -->
     <div class="modal" id="modal">
         <div class="modal-content">
+            <button class="modal-nav modal-nav-prev" onclick="modalNavigate(-1)">&#8592;</button>
+            <button class="modal-nav modal-nav-next" onclick="modalNavigate(1)">&#8594;</button>
             <button class="modal-close" onclick="closeModal()">×</button>
             <div class="modal-header">
                 <div class="modal-title" id="modalTitle"></div>
@@ -3049,7 +3063,17 @@ function setFilterListing(type) {
             return `https://opensea.io/item/ethereum/${NAKAMIGOS_CONTRACT}/${tokenId}`;
         }
 
-        function openModal(nft) {
+        let _sortedList = [];
+        let _idx = 0;
+
+        function openModal(idx) {
+            _idx = idx;
+            _render();
+        }
+
+        function _render() {
+            const nft = _sortedList[_idx];
+            if (!nft) return;
             const modal = document.getElementById('modal');
             document.getElementById('modalTitle').textContent = `Nakamigos #${nft.tokenId}`;
             document.getElementById('modalSubtitle').textContent = nft.beepleDate;
@@ -3061,11 +3085,24 @@ function setFilterListing(type) {
             document.body.style.overflow = 'hidden';
         }
 
+        function modalNavigate(dir) {
+            if (!_sortedList.length) return;
+            _idx = (_idx + dir + _sortedList.length) % _sortedList.length;
+            _render();
+        }
+
         function closeModal() {
-            const modal = document.getElementById('modal');
-            modal.classList.remove('active');
+            document.getElementById('modal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
+
+        document.addEventListener('keydown', function(e) {
+            const modal = document.getElementById('modal');
+            if (!modal.classList.contains('active')) return;
+            if (e.key === 'ArrowLeft') modalNavigate(-1);
+            if (e.key === 'ArrowRight') modalNavigate(1);
+            if (e.key === 'Escape') closeModal();
+        });
 
         // 👇 AJOUTE ICI
         
@@ -3125,8 +3162,9 @@ function setFilterListing(type) {
         return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
     });
       
+   _sortedList = sortedNfts;
    gallery.innerHTML = sortedNfts.map((nft, index) => `
-        <div class="nft-card" onclick='openModal(${JSON.stringify(nft)})'>
+        <div class="nft-card" onclick='openModal(${index})'>
             <div class="nft-image-container">
                 ${nft.nakamigoImage !== "URL_DE_TON_IMAGE_ICI" 
                     ? `<img src="${nft.nakamigoImage}" alt="Nakamigos #${nft.tokenId}" class="nft-image" onerror="this.parentElement.innerHTML='<div class=\\'placeholder\\'>⚠️ Image indisponible</div>'">` 
