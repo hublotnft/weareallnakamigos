@@ -239,6 +239,33 @@ body.light-mode .ticker-img {
         .modal-nav:hover { background: rgba(135,206,235,0.25); }
         .modal-nav-prev { left: 12px; }
         .modal-nav-next { right: 12px; }
+
+        /* ===== CARTES : FLOTTEMENT + APERÇU BEEPLE ===== */
+        @keyframes cardFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
+        .gallery .nft-card { animation: cardFloat 4.5s ease-in-out infinite; animation-delay: var(--fd, 0s); }
+        .gallery .nft-card:hover { animation-play-state: paused; }
+        .gallery .beeple-peek {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0; transform: scale(1.12);
+            transition: opacity 0.4s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .gallery .beeple-peek:not([src]) { visibility: hidden; }
+        .gallery .peek-chip {
+            position: absolute; left: 8px; bottom: 8px;
+            font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 4px 8px; border-radius: 6px;
+            background: rgba(8,13,26,0.75); color: #87CEEB;
+            opacity: 0; transform: translateY(6px);
+            transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+            pointer-events: none;
+        }
+        @media (hover: hover) {
+            .gallery .nft-card:hover .beeple-peek.loaded { opacity: 1; transform: scale(1); }
+            .gallery .nft-card:hover .beeple-peek.loaded + .peek-chip { opacity: 1; transform: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .gallery .nft-card { animation: none; }
+        }
 </style>
 
 
@@ -3057,6 +3084,15 @@ function setFilterListing(type) {
             return `https://opensea.io/item/ethereum/${NAKAMIGOS_CONTRACT}/${tokenId}`;
         }
 
+        document.addEventListener('mouseover', function(e) {
+            const card = e.target.closest && e.target.closest('.gallery .nft-card');
+            if (!card) return;
+            const peek = card.querySelector('.beeple-peek');
+            if (!peek || peek.getAttribute('src') || !peek.dataset.src) return;
+            peek.onload = function() { peek.classList.add('loaded'); };
+            peek.src = peek.dataset.src;
+        });
+
         let _sortedList = [];
         let _idx = 0;
 
@@ -3158,8 +3194,9 @@ function setFilterListing(type) {
       
    _sortedList = sortedNfts;
    gallery.innerHTML = sortedNfts.map((nft, index) => `
-        <div class="nft-card" onclick='openModal(${index})'>
+        <div class="nft-card" style="--fd:-${((index * 0.37) % 4.5).toFixed(2)}s" onclick='openModal(${index})'>
             <div class="nft-image-container">
+                <img class="beeple-peek" data-src="${nft.beepleImage || ''}" alt=""><span class="peek-chip">Beeple's Everyday</span>
                 ${nft.nakamigoImage !== "URL_DE_TON_IMAGE_ICI" 
                     ? `<img src="${nft.nakamigoImage}" alt="Nakamigos #${nft.tokenId}" class="nft-image" onerror="this.parentElement.innerHTML='<div class=\\'placeholder\\'>⚠️ Image indisponible</div>'">` 
                     : `<div class="placeholder">📷 Ajoute ton image<br><small>Upload sur imgbb.com</small></div>`
