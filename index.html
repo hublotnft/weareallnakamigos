@@ -3090,7 +3090,13 @@ function setFilterListing(type) {
             const peek = card.querySelector('.beeple-peek');
             if (!peek || peek.getAttribute('src') || !peek.dataset.src) return;
             peek.onload = function() { peek.classList.add('loaded'); };
-            peek.src = peek.dataset.src;
+            const full = peek.dataset.src;
+            if (full.indexOf('assets/beeple/') === 0) {
+                peek.onerror = function() { peek.onerror = null; peek.src = full; };
+                peek.src = full.replace('assets/beeple/', 'assets/beeple/thumbs/') + '.jpg';
+            } else {
+                peek.src = full;
+            }
         });
 
         let _sortedList = [];
